@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("img.jpg");
+        }
+        
+        .container {
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 40px;
+            font-size: 36px;
+            color: #333;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        label {
+            font-size: 24px;
+            color: #555;
+        }
+        
+        input[type="number"] {
+            padding: 10px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Currency Converter</h1>
+        <form>
+            <div class="input-group">
+                <label for="dollar">$</label>
+                <input type="number" step="any" placeholder="Enter amount in dollars" id="dollar" />
+            </div>
+            <div class="input-group">
+                <label for="rs">&#8377;</label>
+                <input type="number" step="any" placeholder="Enter amount in rupees" id="rs" />
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const dollar = document.getElementById("dollar");
+        const rs = document.getElementById("rs");
+        let url = "https://api.exchangerate-api.com/v4/latest/USD";
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                dol = data.rates.INR;
+            })
+            .catch(err => alert("issue" + err));
+        dollar.addEventListener("input", function() {
+            const d = parseFloat(dollar.value);
+            const r = d * dol;
+            rs.value = isNaN(r) ? '' : r.toFixed(2);
+        });
+
+        rs.addEventListener("input", function() {
+            const r = parseFloat(rs.value);
+            const d = r / dol;
+            dollar.value = isNaN(d) ? '' : d.toFixed(2);
+        });
+    </script>
+</body>
+
+</html>
